@@ -1,7 +1,7 @@
 # TTDraft.live
-TTDraft.live source code repository
+TTDraft.live source code repository,
 
-this is a website, might even be made in golang!
+this is a website, made in react with nextjs and tailwind... docs for that below! the site is meant to provide a new type of gamemode to the DKR community,,, go TTDraft!  Want something changed on the site? Submit a PR ya goober!
 
 FROM NEXT.JS GEN----
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
