@@ -2,13 +2,12 @@
 
 import Image from "next/image";
 import { NavLink } from 'react-router-dom';
-import {useState, useEffect} from 'react';
 
-export default function NotFound() {
+export default function Template() {
   return (
     <div className="grid min-h-screen">
       <main className="grid grid-rows-[20px_1fr_20px] justify-center pt-5">
-        <NavLink to="/">
+      <NavLink to="/">
           <Image
             className=""
             src="/ttdraftlogo.png"
@@ -20,7 +19,7 @@ export default function NotFound() {
         </NavLink>
       </main>
       <div>
-        <h1 className="grid justify-center">No idea where you're at....  maybe go <a href="/">home?</a></h1>
+        <h1 className="grid justify-center">You're doing something now!</h1>
       </div>
     </div>
   );
