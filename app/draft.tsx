@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { NavLink } from 'react-router-dom';
 import {useState, useEffect} from 'react';
+import RouletteSpinner from '@/components/rouletteSpinner';
 
 export default function Draft() {
   return (
@@ -11,7 +12,7 @@ export default function Draft() {
       <NavLink to="/">
           <Image
             className=""
-            src="/ttdraftlogo.png"
+            src="/tt-draft-logo.png"
             alt="Main Site Logo"
             width={850}
             height={100}
@@ -20,7 +21,11 @@ export default function Draft() {
         </NavLink>
       </main>
       <div className="@container">
-        <h1 className="grid justify-center">You're drafting now!</h1>
+        <div className="grid grid-cols-3">
+          <RouletteSpinner></RouletteSpinner>
+          <RouletteSpinner></RouletteSpinner>
+          <RouletteSpinner></RouletteSpinner>
+        </div>
       </div>
     </div>
   );

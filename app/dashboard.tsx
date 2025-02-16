@@ -21,7 +21,7 @@ export default function Dashboard() {
       <NavLink to="/">
           <Image
             className=""
-            src="/ttdraftlogo.png"
+            src="/tt-draft-logo.png"
             alt="Main Site Logo"
             width={850}
             height={100}
@@ -35,7 +35,7 @@ export default function Dashboard() {
           <NavLink to="/draft">
             <Image
                 className="hover:scale-125 transition-all"
-                src="/drafticon1.png"
+                src="/draft-icon-1.png"
                 alt="TT Draft Logo"
                 width={275}
                 height={275}
@@ -48,7 +48,7 @@ export default function Dashboard() {
           <NavLink to="/settings">
             <Image
               className="hover:scale-125 transition-all"
-              src="/settingsicon.png"
+              src="/settings-icon.png"
               alt="Configure Image"
               width={275}
               height={275}

@@ -10,7 +10,7 @@ export default function Template() {
       <NavLink to="/">
           <Image
             className=""
-            src="/ttdraftlogo.png"
+            src="/tt-draft-logo.png"
             alt="Main Site Logo"
             width={850}
             height={100}
