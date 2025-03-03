@@ -21,6 +21,19 @@ export default function Contact() {
       </main>
       <div>
         <h1 className="grid justify-center">Oh, you wanna reach out?</h1>
+        <br></br>
+        <h2 className="grid justify-center">
+          <NavLink
+          className="font-bold hover:underline hover:underline-offset-4"
+          to="https://discord.com/users/1161442807005859880"
+          >[peaches - Discord]</NavLink>
+        </h2>
+        <h2 className="grid justify-center">
+          <NavLink
+          className="font-bold hover:underline hover:underline-offset-4"
+          to="https://discord.com/users/149282781640392706"
+          >[vhulf - Discord]</NavLink>
+        </h2>
       </div>
     </div>
   );
