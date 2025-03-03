@@ -21,6 +21,26 @@ export default function Links() {
       </main>
       <div>
         <h1 className="grid justify-center">Some stuff we think is important...</h1>
+        <br></br>
+        <br></br>
+        <h2 className="grid justify-center">
+          <NavLink
+          className="font-bold hover:underline hover:underline-offset-4"
+          to="https://dkr64.com/"
+          >[DKR64.com]</NavLink>
+        </h2>
+        <h2 className="grid justify-center">
+          <NavLink
+          className="font-bold hover:underline hover:underline-offset-4"
+          to="https://dkr64.com/"
+          >[DKR64.com]</NavLink>
+        </h2>
+        <h2 className="grid justify-center">
+          <NavLink
+          className="font-bold hover:underline hover:underline-offset-4"
+          to="https://dkr64.com/"
+          >[DKR64.com]</NavLink>
+        </h2>
       </div>
     </div>
   );

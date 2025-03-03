@@ -38,8 +38,8 @@ export function Settings() {
       </main>
       <div>
         <h1 className="grid justify-center">You're setting up the game now!</h1>
-        <button name="switchRollType" onClick={() => setSettingsItem("rollMapFirst", "false")}>Switch to Category Roll</button>
-        <button name="switchRollType" onClick={() => setSettingsItem("rollMapFirst", "true")}>Switch to Mapfirst Roll</button>
+        <li><button name="switchRollType" onClick={() => setSettingsItem("rollMapFirst", "false")}>Switch to Category Roll</button></li>
+        <li><button name="switchRollType" onClick={() => setSettingsItem("rollMapFirst", "true")}>Switch to Mapfirst Roll</button></li>
       </div>
     </div>
   );
