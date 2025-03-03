@@ -7,7 +7,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Dashboard from "./dashboard";
 import NotFound from "./notfound";
 import Draft from "./draft";
-import Settings from "./settings";
+import { Settings } from "./settings";
 import Contact from "./contact";
 import Rules from "./rules";
 import Links from "./links";

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { NavLink } from 'react-router-dom';
 import {useState, useEffect} from 'react';
+import {defaultSettings} from './settings';
 
 export default function Dashboard() {
   const [width, setWidth]   = useState(window.innerWidth);
@@ -15,6 +16,11 @@ export default function Dashboard() {
       window.addEventListener("resize", updateDimensions);
       return () => window.removeEventListener("resize", updateDimensions);
   }, []);
+
+  if (localStorage.getItem("settings") == null) {
+    localStorage.setItem("settings", JSON.stringify(defaultSettings))
+  }
+
   return (
     <div className="grid min-h-screen">
       <main className="grid grid-rows-[20px_1fr_20px] justify-center pt-5">

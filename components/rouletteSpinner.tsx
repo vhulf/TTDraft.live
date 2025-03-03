@@ -2,6 +2,7 @@ import RouletteCard from "@/components/rouletteCard";
 import { split } from "postcss/lib/list";
 import { useEffect, useRef } from "react";
 import  uuid  from "react-uuid";
+import { getSettingsItem } from '../app/settings';
 
 const categories = {
   "ancient-lake": ["car", "hover", "plane"],
@@ -103,9 +104,14 @@ function deserializeMap(serialized:string) {
 
 const RouletteSpinner = () => {
   let compId = uuid()
+  var spinnerArray;
 
-  // let spinnerArray = fillSpinnerArray(compId)
-  let spinnerArray = fillSpinnerArraySer(compId)
+  if (getSettingsItem("rollMapFirst") == "true") {
+    spinnerArray = fillSpinnerArray(compId)
+  } else {
+    spinnerArray = fillSpinnerArraySer(compId)
+  }
+  
 
   useEffect(() => {
     let selected = getRandomInt(5, 40);
