@@ -5,20 +5,30 @@ interface Props {
   map: string
   vehichle: string
   clacked: boolean
-  // setClacked: Dispatch<SetStateAction<string>>
+  dataKey: string
+  setClacked: Dispatch<SetStateAction<string>>
 }
 
  const RouletteCard = (props: Props) => {
-  // const [clacked, setClacked] = useState(0)
+  const [clacked, setClacked] = useState(0)
+  let clackClass = clacked ? "clacked":""
   return (
-    <div className="static">
-        <div className="relative">
-          <Image
+    <div id={props.dataKey}>
+        <div className={"relative "+clackClass}>
+        <Image
               className="absolute"
+              src={"/map-border-default.png"}
+              alt="draft-icon_border"
+              width={336}
+              height={336}
+              priority
+          />
+          <Image
+              className="absolute ml-11 mt-9"
               src={"/" + props.map + ".png"}
               alt="draft-icon_map"
-              width={250}
-              height={250}
+              width={246}
+              height={246}
               priority
           />
           <Image
