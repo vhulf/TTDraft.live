@@ -7,7 +7,7 @@ export default function Template() {
   return (
     <div className="grid min-h-screen">
       <main className="grid grid-rows-[20px_1fr_20px] justify-center pt-5">
-      <NavLink to="/">
+      <NavLink to="/" style={{"zIndex":"99999"}}>
           <Image
             className=""
             src="/tt-draft-logo.png"
