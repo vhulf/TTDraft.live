@@ -4,6 +4,11 @@ import { useEffect, useRef } from "react";
 import  uuid  from "react-uuid";
 import { getSettingsItem } from '../app/settings';
 
+interface Props {
+  rid: number
+  onClickCallback:Function
+}
+
 const categories = {
   "ancient-lake": ["car", "hover", "plane"],
   "fossil-canyon": ["car", "hover", "plane"],
@@ -102,7 +107,7 @@ function deserializeMap(serialized:string) {
   return toRet
 }
 
-const RouletteSpinner = () => {
+const RouletteSpinner = (props: Props) => {
   let compId = uuid()
   var spinnerArray;
 
@@ -118,7 +123,7 @@ const RouletteSpinner = () => {
     scroll(selected, compId);
     let elem = document.querySelector( '#card-'+selected+'-'+compId );
     elem?.setAttribute("clacked", "true")
-    elem.className = "relative animate-pulse"
+    if (elem) {elem.className = "relative animate-pulse"}
 
     // disable all scrollin?
     document.getElementById(compId)?.setAttribute("style", "height: 775px; overflow-y: hidden; overflow-anchor: none; margin-top: 160px;")
@@ -129,7 +134,7 @@ const RouletteSpinner = () => {
     <div style={{height: "775px", overflowY: "scroll", overflowAnchor: "none", marginTop: "160px"}} id={compId} className="scrolltainer">
       <div style={{paddingLeft: "25px", top: "200px"}}>
           {spinnerArray.map((cardItem) => (
-              <li key={cardItem.key} style={{height: "245px", listStyle: "none"}}>{cardItem}</li>
+              <li key={cardItem.key} style={{height: "245px", listStyle: "none"}} onClick={() => props.onClickCallback(props.rid)}>{cardItem}</li>
           ))}
         </div>
     </div>
