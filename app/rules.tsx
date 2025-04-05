@@ -29,6 +29,10 @@ export default function Rules() {
           <p className="grid justify-center">You and your friend will each ban one of these categories, from there you'll both have *TIMELIMIT* to get your best time on EACH of the leftover draft categories!</p>
           <p className="grid justify-center">(We recommend having a notecard handy)</p>
           <br></br>
+          <p className="grid justify-center">Whenever you're finished with your draft, click TTs big head to change settings or start another draft! :D</p>
+          <br></br>
+          <br></br>
+          <br></br>
           <p className="grid justify-center">We had a blast imagining this gamemode and trying it out some, and we hope you do too! We recommend draft tournaments to be best of three or five to truly decide who the fastest clock is. c:</p>
         </div>
       </div>
