@@ -17,12 +17,12 @@ export default function Draft() {
     {id: 5, spinner: <RouletteSpinner rid={5} onClickCallback={() => removeMe(5)} key="5"></RouletteSpinner>}
   ])
 
-  var deleted = 0
+  let deleted = 0
 
   const removeMe = (toDelete: number) => {
     if(deleted < 2) {
       deleted = deleted + 1
-      let newArray = [...spinnersArray]
+      const newArray = [...spinnersArray]
       newArray[newArray.findIndex((elem) => elem.id == toDelete)].spinner = <div key={toDelete} className="scrolltainer"></div>;
       console.log("deleting :" + toDelete +": "+deleted)
       setSpinnersArray([...newArray]);

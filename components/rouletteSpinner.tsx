@@ -1,11 +1,13 @@
 import RouletteCard from "@/components/rouletteCard";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import  uuid  from "react-uuid";
 import { getSettingsItem } from '../app/settings';
 
+type callbackFunc = (number: number) => void;
+
 interface Props {
   rid: number
-  onClickCallback:Function
+  onClickCallback: callbackFunc
 }
 
 const categories = {
@@ -54,15 +56,6 @@ const categoriesSerialized = [
   "spaceport-alpha:car", "spaceport-alpha:hover", "spaceport-alpha:plane"
 ]
 
-function Seperator() {
-  return (
-
-    <div>
-      <br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br>
-    </div>
-  )
-}
-
 function getRandomInt(min: number, max: number) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -84,16 +77,16 @@ function fillSpinnerArray(id: string) {
 }
 
 const scroll = (cardNum: number, id: string) => {
-  let section = document.querySelector( '#card-'+cardNum+'-'+id );
+  const section = document.querySelector( '#card-'+cardNum+'-'+id );
   if (section) {section.scrollIntoView( { behavior: 'smooth', block: 'center' } )};
 };
 
 function fillSpinnerArraySer(id: string) {
-  let toReturn = []
+  const toReturn = []
 
   for (let i = 0; i < 45; i++) {
-    let ran = getRandomInt(0, categoriesSerialized.length - 1)
-    let mappy = deserializeMap(categoriesSerialized[ran])
+    const ran = getRandomInt(0, categoriesSerialized.length - 1)
+    const mappy = deserializeMap(categoriesSerialized[ran])
 
     toReturn.push(<RouletteCard map={mappy[0]} vehichle={mappy[1]} key={"card-"+i} dataKey={"card-"+i+"-"+id}></RouletteCard>)
   }
@@ -102,14 +95,14 @@ function fillSpinnerArraySer(id: string) {
 }
 
 function deserializeMap(serialized:string) {
-  let toRet = serialized.split(":")
+  const toRet = serialized.split(":")
 
   return toRet
 }
 
 const RouletteSpinner = (props: Props) => {
-  let compId = uuid()
-  var spinnerArray;
+  const compId = uuid()
+  let spinnerArray;
 
   if (getSettingsItem("rollMapFirst") == "true") {
     spinnerArray = fillSpinnerArray(compId)
@@ -119,9 +112,9 @@ const RouletteSpinner = (props: Props) => {
   
 
   useEffect(() => {
-    let selected = getRandomInt(5, 40);
+    const selected = getRandomInt(5, 40);
     scroll(selected, compId);
-    let elem = document.querySelector( '#card-'+selected+'-'+compId );
+    const elem = document.querySelector( '#card-'+selected+'-'+compId );
     elem?.setAttribute("clacked", "true")
     if (elem) {elem.className = "relative animate-pulse"}
 
