@@ -70,7 +70,7 @@ function fillSpinnerArray(id: string) {
     const ran2 = getRandomInt(0, [Object.keys(categories)[ran1]].length-1)
 
 
-    toReturn.push(<RouletteCard map={Object.keys(categories)[ran1]} vehichle={categories[(Object.keys(categories)[ran1])][ran2]} key={"card-"+i+"-"+id} dataKey={"card-"+i+"-"+id}></RouletteCard>)
+    toReturn.push(<RouletteCard map={Object.keys(categories)[ran1]} vehichle={categories[(Object.keys(categories)[ran1]) as keyof typeof categories][ran2]} key={"card-"+i+"-"+id} dataKey={"card-"+i+"-"+id}></RouletteCard>)
   }
 
   return toReturn
