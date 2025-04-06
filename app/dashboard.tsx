@@ -16,7 +16,7 @@ export default function Dashboard() {
   useEffect(() => {
       window.addEventListener("resize", updateDimensions);
       return () => window.removeEventListener("resize", updateDimensions);
-  }, []);
+  }, [updateDimensions]);
 
   if (localStorage.getItem("settings") == null) {
     localStorage.setItem("settings", JSON.stringify(defaultSettings))

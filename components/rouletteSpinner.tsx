@@ -63,7 +63,7 @@ function getRandomInt(min: number, max: number) {
 }
 
 function fillSpinnerArray(id: string) {
-  let toReturn = []
+  const toReturn = []
 
   for (let i = 0; i < 45; i++) {
     const ran1 = getRandomInt(0, 19)
