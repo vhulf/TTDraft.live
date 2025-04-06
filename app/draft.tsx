@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { NavLink } from 'react-router-dom';
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 import RouletteSpinner from '@/components/rouletteSpinner';
 
 
@@ -22,7 +22,7 @@ export default function Draft() {
   const removeMe = (toDelete: number) => {
     if(deleted < 2) {
       deleted = deleted + 1
-      var newArray = [...spinnersArray]
+      let newArray = [...spinnersArray]
       newArray[newArray.findIndex((elem) => elem.id == toDelete)].spinner = <div key={toDelete} className="scrolltainer"></div>;
       console.log("deleting :" + toDelete +": "+deleted)
       setSpinnersArray([...newArray]);

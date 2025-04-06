@@ -2,19 +2,18 @@
 
 import Image from "next/image";
 import { NavLink } from 'react-router-dom';
-import {useState, useEffect} from 'react';
 
 export const defaultSettings = {
   "rollMapFirst":"true"
 }
 
-export function getSettingsItem(key) {
+export function getSettingsItem(key: string) {
   const curSettings = localStorage.getItem("settings") || JSON.stringify(defaultSettings);
-  let toReturn = JSON.parse(curSettings)
-  return curSettings[key];
+  // let toReturn = JSON.parse(curSettings)
+  return curSettings[Number(key)];
 }
 
-export function setSettingsItem(key, value) {
+export function setSettingsItem(key: string, value: string) {
   const curSettings = JSON.parse(localStorage.getItem("settings") || "")
   curSettings[key] = JSON.stringify(value)
   localStorage.setItem('settings', JSON.stringify(curSettings))
@@ -37,7 +36,7 @@ export function Settings() {
         </NavLink>
       </main>
       <div>
-        <h1 className="grid justify-center">You're setting up the game now!</h1>
+        <h1 className="grid justify-center">You&apos;re setting up the game now!</h1>
         <li><button name="switchRollType" onClick={() => setSettingsItem("rollMapFirst", "false")}>Switch to Category Roll</button></li>
         <li><button name="switchRollType" onClick={() => setSettingsItem("rollMapFirst", "true")}>Switch to Mapfirst Roll</button></li>
       </div>

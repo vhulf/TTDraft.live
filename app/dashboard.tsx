@@ -11,6 +11,7 @@ export default function Dashboard() {
   const updateDimensions = () => {
       setWidth(window.innerWidth);
       setHeight(window.innerHeight);
+      console.log(width, height)
   }
   useEffect(() => {
       window.addEventListener("resize", updateDimensions);

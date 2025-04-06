@@ -1,5 +1,4 @@
 import RouletteCard from "@/components/rouletteCard";
-import { split } from "postcss/lib/list";
 import { useEffect, useRef } from "react";
 import  uuid  from "react-uuid";
 import { getSettingsItem } from '../app/settings';
@@ -57,45 +56,46 @@ const categoriesSerialized = [
 
 function Seperator() {
   return (
+
     <div>
       <br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br>
     </div>
   )
 }
 
-function getRandomInt(min, max) {
+function getRandomInt(min: number, max: number) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function fillSpinnerArray(id) {
+function fillSpinnerArray(id: string) {
   let toReturn = []
 
   for (let i = 0; i < 45; i++) {
-    let ran1 = getRandomInt(0, 19)
-    let ran2 = getRandomInt(0, categories[Object.keys(categories)[ran1]].length-1)
+    const ran1 = getRandomInt(0, 19)
+    const ran2 = getRandomInt(0, [Object.keys(categories)[ran1]].length-1)
 
 
-    toReturn.push(<RouletteCard map={Object.keys(categories)[ran1]} vehichle={categories[Object.keys(categories)[ran1]][ran2]} clacked={false} key={"card-"+i+"-"+id}></RouletteCard>)
+    toReturn.push(<RouletteCard map={Object.keys(categories)[ran1]} vehichle={categories[(Object.keys(categories)[ran1])][ran2]} key={"card-"+i+"-"+id} dataKey={"card-"+i+"-"+id}></RouletteCard>)
   }
 
   return toReturn
 }
 
-const scroll = (cardNum, id) => {
+const scroll = (cardNum: number, id: string) => {
   let section = document.querySelector( '#card-'+cardNum+'-'+id );
-  section.scrollIntoView( { behavior: 'smooth', block: 'center' } );
+  if (section) {section.scrollIntoView( { behavior: 'smooth', block: 'center' } )};
 };
 
-function fillSpinnerArraySer(id) {
+function fillSpinnerArraySer(id: string) {
   let toReturn = []
 
   for (let i = 0; i < 45; i++) {
     let ran = getRandomInt(0, categoriesSerialized.length - 1)
     let mappy = deserializeMap(categoriesSerialized[ran])
 
-    toReturn.push(<RouletteCard map={mappy[0]} vehichle={mappy[1]} clacked={false} key={"card-"+i} dataKey={"card-"+i+"-"+id}></RouletteCard>)
+    toReturn.push(<RouletteCard map={mappy[0]} vehichle={mappy[1]} key={"card-"+i} dataKey={"card-"+i+"-"+id}></RouletteCard>)
   }
 
   return toReturn
@@ -128,7 +128,6 @@ const RouletteSpinner = (props: Props) => {
     // disable all scrollin?
     document.getElementById(compId)?.setAttribute("style", "height: 775px; overflow-y: hidden; overflow-anchor: none; margin-top: 160px;")
   });
-
 
   return (
     <div style={{height: "775px", overflowY: "scroll", overflowAnchor: "none", marginTop: "160px"}} id={compId} className="scrolltainer">

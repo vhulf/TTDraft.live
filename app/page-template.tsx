@@ -19,7 +19,7 @@ export default function Template() {
         </NavLink>
       </main>
       <div>
-        <h1 className="grid justify-center">You're doing something now!</h1>
+        <h1 className="grid justify-center">You&apos;re doing something now!</h1>
       </div>
     </div>
   );

@@ -1,20 +1,20 @@
 import Image from "next/image";
-import React, { Dispatch, SetStateAction, useState } from 'react'
+import React from 'react'
 
 interface Props {
   map: string
   vehichle: string
-  clacked: boolean
+  //clacked: boolean
   dataKey: string
-  setClacked: Dispatch<SetStateAction<string>>
+  //setClacked: Dispatch<SetStateAction<string>>
 }
 
  const RouletteCard = (props: Props) => {
-  const [clacked, setClacked] = useState(0)
-  let clackClass = clacked ? "clacked":""
+  //const [clacked, setClacked] = useState(0)
+  //const clackClass = clacked ? "clacked":""
   return (
     <div id={props.dataKey}>
-        <div className={"relative "+clackClass}>
+        <div className={"relative"}>
         <Image
               className="absolute"
               src={"/map-border-default.png"}

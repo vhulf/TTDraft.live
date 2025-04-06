@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { NavLink } from 'react-router-dom';
-import {useState, useEffect} from 'react';
 
 export default function Rules() {
   return (
@@ -26,10 +25,10 @@ export default function Rules() {
           <br></br>
           <p className="grid justify-center">The greatest way to face-off against your friends in head-to-head DKR Time Trial madness!  CURRENTLY A WORK IN PROGRESS....</p>
           <p className="grid justify-center">After optionally setting up your game rules, click the draft icon on the homepage to begin a draft, from here a roll of five TT categories will be shown to you.</p>
-          <p className="grid justify-center">You and your friend will each ban one of these categories, from there you'll both have *TIMELIMIT* to get your best time on EACH of the leftover draft categories!</p>
+          <p className="grid justify-center">You and your friend will each ban one of these categories, from there you&apos;ll both have *TIMELIMIT* to get your best time on EACH of the leftover draft categories!</p>
           <p className="grid justify-center">(We recommend having a notecard handy)</p>
           <br></br>
-          <p className="grid justify-center">Whenever you're finished with your draft, click TTs big head to change settings or start another draft! :D</p>
+          <p className="grid justify-center">Whenever you&apos;re finished with your draft, click TTs big head to change settings or start another draft! :D</p>
           <br></br>
           <br></br>
           <br></br>

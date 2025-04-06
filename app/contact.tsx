@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { NavLink } from 'react-router-dom';
-import {useState, useEffect} from 'react';
 
 export default function Contact() {
   return (
