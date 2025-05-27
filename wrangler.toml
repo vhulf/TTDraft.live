@@ -4,10 +4,4 @@ pages_build_output_dir = "build"
 compatibility_date = "2025-04-05"
 
 [vars]
-NODE_VERSION = "18.18.0"
-
-[env.production.vars]
 NODE_VERSION = "20.0.0"
-
-[triggers]
-crons = ["0 7 * * *"]
