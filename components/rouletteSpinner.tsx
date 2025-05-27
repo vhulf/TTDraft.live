@@ -89,8 +89,8 @@ const scroll = (cardNum: number, id: string, hasScrolled?: boolean) => {
     let section = document.querySelector( '#card-'+cardNum+'-'+id );
     if (section !== null) {
       section.scrollIntoView({'behavior': 'smooth', 'block': 'center'})
-      //let scrollTo = section.getBoundingClientRect().top - 250
-      section.scrollTo( { top: 500, behavior: 'smooth'} );
+      // let scrollTo = section.getBoundingClientRect().top - 250
+      // section.scrollTo( { top: 500, behavior: 'smooth'} );
       section.setAttribute("class", "animate-pulse")
     }
   }

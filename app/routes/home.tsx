@@ -3,8 +3,8 @@ import Dashboard  from "../dashboard";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "New React Router App" },
-    { name: "description", content: "Welcome to React Router!" },
+    { title: "TTDraft.live" },
+    { name: "description", content: "WE ARE TT!" },
   ];
 }
 
