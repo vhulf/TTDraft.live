@@ -1,5 +1,4 @@
-import Image from "next/image";
-import React from 'react'
+'use client'
 
 interface Props {
   map: string
@@ -15,29 +14,26 @@ interface Props {
   return (
     <div id={props.dataKey}>
         <div className={"relative"}>
-        <Image
+        <img
               className="absolute"
               src={"/map-border-default.png"}
               alt="draft-icon_border"
               width={336}
               height={336}
-              priority
           />
-          <Image
+          <img
               className="absolute ml-11 mt-9"
               src={"/" + props.map + ".png"}
               alt="draft-icon_map"
               width={246}
               height={246}
-              priority
           />
-          <Image
+          <img
               className="absolute"
               src={"/" + props.vehichle + "-icon-2.png"}
               alt="draft-icon_veh"
               width={75}
               height={75}
-              priority
           />
         </div>
     </div>

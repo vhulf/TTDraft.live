@@ -1,23 +1,19 @@
 'use client'
 
-import Image from "next/image";
-import { NavLink } from 'react-router-dom';
-
 export default function Rules() {
   return (
     <>
       <div className="grid min-h-screen">
         <main className="grid grid-rows-[20px_1fr_20px] justify-center pt-5">
-        <NavLink to="/" style={{"zIndex":"99999"}}>
-            <Image
+        <a href="/" style={{"zIndex":"99999"}}>
+            <img
               className=""
               src="/tt-draft-logo.png"
               alt="Main Site Logo"
               width={850}
               height={100}
-              priority
             />
-          </NavLink>
+          </a>
         </main>
         <div className="">
           <h1 className="grid justify-center">Welcome to TT Draft!</h1>

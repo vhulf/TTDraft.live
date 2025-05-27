@@ -1,58 +1,58 @@
 'use client'
 
-import Image from "next/image";
-import { NavLink } from 'react-router-dom';
-import {useState} from 'react';
-import RouletteSpinner from '@/components/rouletteSpinner';
-
-
+import {useLocation} from 'react-router';
+import RouletteSpinner from 'components/rouletteSpinner';
+import { getSettingsItem } from './settings';
 
 export default function Draft() {
 
-  const [spinnersArray, setSpinnersArray] = useState([ // maybe we could set the whole things "spinner" to a blank div to maintain the framing of it all??
-    {id: 1, spinner: <RouletteSpinner rid={1} onClickCallback={() => removeMe(1)} key="1"></RouletteSpinner>},
-    {id: 2, spinner: <RouletteSpinner rid={2} onClickCallback={() => removeMe(2)} key="2"></RouletteSpinner>},
-    {id: 3, spinner: <RouletteSpinner rid={3} onClickCallback={() => removeMe(3)} key="3"></RouletteSpinner>},
-    {id: 4, spinner: <RouletteSpinner rid={4} onClickCallback={() => removeMe(4)} key="4"></RouletteSpinner>},
-    {id: 5, spinner: <RouletteSpinner rid={5} onClickCallback={() => removeMe(5)} key="5"></RouletteSpinner>}
-  ])
+  function reloadMe() {
+    window.location.reload();
+  }
 
-  let deleted = 0
+  const location = useLocation();
+  let keyHelp = "nondoc";
 
-  const removeMe = (toDelete: number) => {
-    if(deleted < 2) {
-      deleted = deleted + 1
-      const newArray = [...spinnersArray]
-      newArray[newArray.findIndex((elem) => elem.id == toDelete)].spinner = <div key={toDelete} className="scrolltainer"></div>;
-      console.log("deleting :" + toDelete +": "+deleted)
-      setSpinnersArray([...newArray]);
-    }
+  if (typeof document !== "undefined") {
+    keyHelp = document.location.href;
+  }
+
+  var curRoll = "";
+
+  if (getSettingsItem("rollMapFirst") == "true") {
+    curRoll = "Selected: Mapfirst Roll (map rolled first, maps with less categories more likely, more hober/plane likely)"
+    // curRollString = "The Map pool is rolled on first, then category... in theory more hober and plane should be seen!"
+    
+  } else if (getSettingsItem("rollMapFirst") == "false") {
+    curRoll = "Selected: Category Roll (categories are rolled at once, more car likely)"
+   //  curRollString = "All categories will be rolled in a big pool! Maps with less categories are less likely, and car holds some weight across the board!"
   }
 
   return (
-    <div className="grid min-h-screen" style={{overflowY: "hidden"}}>
+    <div key={location.key} className="grid min-h-screen">
       <main className="grid grid-rows-[20px_1fr_20px] justify-center pt-5">
-      <NavLink to="/" style={{"zIndex":"99999"}}>
-          <Image
+      <a href="/">
+          <img
             className=""
             src="/tt-draft-logo.png"
             alt="Main Site Logo"
             width={850}
             height={100}
-            priority
           />
-        </NavLink>
+        </a>
       </main>
-      <div className="@container">
-        <div className={"grid grid-cols-5"}>
-          {
-            spinnersArray.map((spinObj) => (
-              <div key={spinObj.id}>{spinObj.spinner}</div>
-            ))
-          }
+      <button className='' onClick={reloadMe} style={{"fontSize": "15em", "position": "fixed", "right": "10px", "top": "-100px"}}><h1>&#x27F3;</h1></button>
+      <p style={{"fontSize": "1em", "position": "fixed", "left": "10px", "top": "10px"}}>{curRoll}</p>
+      <div className="@container min-w-screen">
+        <div className="grid grid-cols-5">
+          <RouletteSpinner key={keyHelp+"a"} ></RouletteSpinner>
+          <RouletteSpinner key={keyHelp+"b"}></RouletteSpinner>
+          <RouletteSpinner key={keyHelp+"c"}></RouletteSpinner>
+          <RouletteSpinner key={keyHelp+"d"}></RouletteSpinner>
+          <RouletteSpinner key={keyHelp+"e"}></RouletteSpinner>
         </div>
       </div>
-      <div className="selectorLine">----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</div>
+      <div className="selectorLine">--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</div>
     </div>
   );
 }

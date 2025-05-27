@@ -1,14 +1,11 @@
-import RouletteCard from "@/components/rouletteCard";
+'use client'
+
+import RouletteCard from "components/rouletteCard";
+import { split } from "postcss/lib/list";
 import { useEffect } from "react";
 import  uuid  from "react-uuid";
 import { getSettingsItem } from '../app/settings';
-
-type callbackFunc = (number: number) => void;
-
-interface Props {
-  rid: number
-  onClickCallback: callbackFunc
-}
+import { useNavigate } from "react-router";
 
 const categories = {
   "ancient-lake": ["car", "hover", "plane"],
@@ -56,6 +53,14 @@ const categoriesSerialized = [
   "spaceport-alpha:car", "spaceport-alpha:hover", "spaceport-alpha:plane"
 ]
 
+function Seperator() {
+  return (
+    <div>
+      <br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br>
+    </div>
+  )
+}
+
 function getRandomInt(min: number, max: number) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -63,30 +68,40 @@ function getRandomInt(min: number, max: number) {
 }
 
 function fillSpinnerArray(id: string) {
-  const toReturn = []
+  let toReturn = []
 
   for (let i = 0; i < 45; i++) {
-    const ran1 = getRandomInt(0, 19)
-    const ran2 = getRandomInt(0, [Object.keys(categories)[ran1]].length-1)
+    let ran1 = getRandomInt(0, 19)
+    let ran2 = getRandomInt(0, categories[Object.keys(categories)[ran1]].length-1)
 
 
-    toReturn.push(<RouletteCard map={Object.keys(categories)[ran1]} vehichle={categories[(Object.keys(categories)[ran1]) as keyof typeof categories][ran2]} key={"card-"+i+"-"+id} dataKey={"card-"+i+"-"+id}></RouletteCard>)
+    toReturn.push(<RouletteCard map={Object.keys(categories)[ran1]} vehichle={categories[Object.keys(categories)[ran1]][ran2]} dataKey={"card-"+i+"-"+id}></RouletteCard>)
   }
 
   return toReturn
 }
 
-const scroll = (cardNum: number, id: string) => {
-  const section = document.querySelector( '#card-'+cardNum+'-'+id );
-  if (section) {section.scrollIntoView( { behavior: 'smooth', block: 'center' } )};
+let hasScrolled = false;
+
+const scroll = (cardNum: number, id: string, hasScrolled?: boolean) => {
+  if (!hasScrolled) {
+    hasScrolled = true;
+    let section = document.querySelector( '#card-'+cardNum+'-'+id );
+    if (section !== null) {
+      section.scrollIntoView({'behavior': 'smooth', 'block': 'center'})
+      //let scrollTo = section.getBoundingClientRect().top - 250
+      section.scrollTo( { top: 500, behavior: 'smooth'} );
+      section.setAttribute("class", "animate-pulse")
+    }
+  }
 };
 
 function fillSpinnerArraySer(id: string) {
-  const toReturn = []
+  let toReturn = []
 
   for (let i = 0; i < 45; i++) {
-    const ran = getRandomInt(0, categoriesSerialized.length - 1)
-    const mappy = deserializeMap(categoriesSerialized[ran])
+    let ran = getRandomInt(0, categoriesSerialized.length - 1)
+    let mappy = deserializeMap(categoriesSerialized[ran])
 
     toReturn.push(<RouletteCard map={mappy[0]} vehichle={mappy[1]} key={"card-"+i} dataKey={"card-"+i+"-"+id}></RouletteCard>)
   }
@@ -95,38 +110,37 @@ function fillSpinnerArraySer(id: string) {
 }
 
 function deserializeMap(serialized:string) {
-  const toRet = serialized.split(":")
+  let toRet = serialized.split(":")
 
   return toRet
 }
 
-const RouletteSpinner = (props: Props) => {
-  const compId = uuid()
-  let spinnerArray;
+const RouletteSpinner = () => {
+  let compId = uuid();
+  let spinnerArray = [];
+  const navigate = useNavigate();
 
   if (getSettingsItem("rollMapFirst") == "true") {
     spinnerArray = fillSpinnerArray(compId)
   } else {
     spinnerArray = fillSpinnerArraySer(compId)
   }
-  
 
   useEffect(() => {
-    const selected = getRandomInt(5, 40);
-    scroll(selected, compId);
-    const elem = document.querySelector( '#card-'+selected+'-'+compId );
-    elem?.setAttribute("clacked", "true")
-    if (elem) {elem.className = "relative animate-pulse"}
+    if (typeof document !== "undefined") {
+      
+      let selected = getRandomInt(5, 40);
+      scroll(selected, compId, hasScrolled);
 
-    // disable all scrollin?
-    document.getElementById(compId)?.setAttribute("style", "height: 775px; overflow-y: hidden; overflow-anchor: none; margin-top: 160px;")
-  });
-
+      document.getElementById(compId)?.setAttribute("style", "height: 775px; overflow-y: hidden; overflow-anchor: none; margin-top: 160px;")
+    }
+  }, []);
+  
   return (
-    <div style={{height: "775px", overflowY: "scroll", overflowAnchor: "none", marginTop: "160px"}} id={compId} className="scrolltainer">
+    <div style={{height: "775px", overflowY: "hidden", overflowAnchor: "none", marginTop: "160px"}} id={compId} className="scrolltainer">
       <div style={{paddingLeft: "25px", top: "200px"}}>
           {spinnerArray.map((cardItem) => (
-              <li key={cardItem.key} style={{height: "245px", listStyle: "none"}} onClick={() => props.onClickCallback(props.rid)}>{cardItem}</li>
+              <li key={cardItem.key} style={{height: "245px", listStyle: "none"}}>{cardItem}</li>
           ))}
         </div>
     </div>
