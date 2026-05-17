@@ -85,7 +85,7 @@ export default function Dashboard() {
         </div>
       <div></div>
       </div>
-      <footer className="flex gap-20 flex-wrap items-center justify-center">
+      <footer className="flex gap-8 flex-wrap items-center justify-center">
         <a
           className="flex items-center gap-2 font-bold hover:underline hover:underline-offset-4"
           href="/contact"
