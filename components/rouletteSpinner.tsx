@@ -69,7 +69,7 @@ function fillSpinnerArray(id: string, allowedVehicles: string[]) {
     let availableVehicles = categories[selectedMap].filter(v => allowedVehicles.indexOf(v) !== -1)
     let ran2 = getRandomInt(0, availableVehicles.length - 1)
 
-    toReturn.push(<RouletteCard map={selectedMap} vehichle={availableVehicles[ran2]} dataKey={"card-"+i+"-"+id}></RouletteCard>)
+    toReturn.push(<RouletteCard key={"card-"+i+"-"+id} map={selectedMap} vehichle={availableVehicles[ran2]} dataKey={"card-"+i+"-"+id}></RouletteCard>)
   }
 
   return toReturn
@@ -101,7 +101,7 @@ function fillSpinnerArraySer(id: string, allowedVehicles: string[]) {
     let ran = getRandomInt(0, filtered.length - 1)
     let mappy = deserializeMap(filtered[ran])
 
-    toReturn.push(<RouletteCard map={mappy[0]} vehichle={mappy[1]} key={"card-"+i} dataKey={"card-"+i+"-"+id}></RouletteCard>)
+    toReturn.push(<RouletteCard key={"card-"+i+"-"+id} map={mappy[0]} vehichle={mappy[1]} dataKey={"card-"+i+"-"+id}></RouletteCard>)
   }
 
   return toReturn
@@ -117,9 +117,10 @@ interface SpinnerProps {
   bannedKeys?: Set<string>
   bansComplete?: boolean
   onBan?: (key: string) => void
+  takenPairs?: React.MutableRefObject<Set<string>>
 }
 
-const RouletteSpinner = ({ bannedKeys, bansComplete, onBan }: SpinnerProps) => {
+const RouletteSpinner = ({ bannedKeys, bansComplete, onBan, takenPairs }: SpinnerProps) => {
   const bk = bannedKeys ?? new Set<string>();
   const bc = bansComplete ?? false;
   const ob = onBan ?? (() => {});
@@ -149,7 +150,23 @@ const RouletteSpinner = ({ bannedKeys, bansComplete, onBan }: SpinnerProps) => {
     if (cards.length === 0) return
     const container = containerRef.current;
     if (container) {
-      const selected = getRandomInt(5, 40);
+      const preferred = getRandomInt(5, 40);
+      let selected = preferred;
+      const tp = takenPairs?.current;
+      if (tp) {
+        for (let offset = 0; offset < 36; offset++) {
+          const idx = 5 + ((preferred - 5 + offset) % 36);
+          if (cards[idx] && (cards[idx] as any).props) {
+            const cardProps = (cards[idx] as any).props;
+            const pair = cardProps.map + ":" + cardProps.vehichle;
+            if (!tp.has(pair)) {
+              selected = idx;
+              tp.add(pair);
+              break;
+            }
+          }
+        }
+      }
       setSelectedIndex(selected);
       scrollToCard(container, selected, compId);
 

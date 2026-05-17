@@ -1,6 +1,6 @@
 'use client'
 
-import {useState} from 'react';
+import {useState, useRef} from 'react';
 import RouletteSpinner from 'components/rouletteSpinner';
 import { getSettingsItem, getVehicles } from './settings';
 
@@ -10,6 +10,7 @@ export default function Draft() {
   const [spinKey, setSpinKey] = useState(0);
   const [bannedKeys, setBannedKeys] = useState<Set<string>>(new Set());
   const bansComplete = bannedKeys.size >= 2;
+  const takenPairs = useRef(new Set<string>());
 
   function handleBan(key: string) {
     setBannedKeys(prev => {
@@ -22,6 +23,7 @@ export default function Draft() {
   function reloadMe() {
     setSpinKey((k) => k + 1);
     setBannedKeys(new Set());
+    takenPairs.current = new Set();
   }
 
   var curRoll = "";
@@ -78,11 +80,11 @@ export default function Draft() {
       <div className="@container min-w-screen" style={{paddingTop: "74px"}}>
         <div style={{position: "relative"}}>
           <div className="grid grid-cols-5">
-            <RouletteSpinner key={"spin"+spinKey+"a"} bannedKeys={bannedKeys} bansComplete={bansComplete} onBan={handleBan}></RouletteSpinner>
-            <RouletteSpinner key={"spin"+spinKey+"b"} bannedKeys={bannedKeys} bansComplete={bansComplete} onBan={handleBan}></RouletteSpinner>
-            <RouletteSpinner key={"spin"+spinKey+"c"} bannedKeys={bannedKeys} bansComplete={bansComplete} onBan={handleBan}></RouletteSpinner>
-            <RouletteSpinner key={"spin"+spinKey+"d"} bannedKeys={bannedKeys} bansComplete={bansComplete} onBan={handleBan}></RouletteSpinner>
-            <RouletteSpinner key={"spin"+spinKey+"e"} bannedKeys={bannedKeys} bansComplete={bansComplete} onBan={handleBan}></RouletteSpinner>
+            <RouletteSpinner key={"spin"+spinKey+"a"} bannedKeys={bannedKeys} bansComplete={bansComplete} onBan={handleBan} takenPairs={takenPairs}></RouletteSpinner>
+            <RouletteSpinner key={"spin"+spinKey+"b"} bannedKeys={bannedKeys} bansComplete={bansComplete} onBan={handleBan} takenPairs={takenPairs}></RouletteSpinner>
+            <RouletteSpinner key={"spin"+spinKey+"c"} bannedKeys={bannedKeys} bansComplete={bansComplete} onBan={handleBan} takenPairs={takenPairs}></RouletteSpinner>
+            <RouletteSpinner key={"spin"+spinKey+"d"} bannedKeys={bannedKeys} bansComplete={bansComplete} onBan={handleBan} takenPairs={takenPairs}></RouletteSpinner>
+            <RouletteSpinner key={"spin"+spinKey+"e"} bannedKeys={bannedKeys} bansComplete={bansComplete} onBan={handleBan} takenPairs={takenPairs}></RouletteSpinner>
           </div>
           <div style={{
             position: "absolute",
