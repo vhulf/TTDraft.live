@@ -5,6 +5,9 @@ import {defaultSettings} from './settings';
 import { setSettingsItem } from './settings';
 
 export default function Dashboard() {
+  const [showDraftTooltip, setShowDraftTooltip] = useState(false);
+  const [showSettingsTooltip, setShowSettingsTooltip] = useState(false);
+
   if (typeof window !== "undefined") {
     const [width, setWidth]   = useState(window.innerWidth);
     const [height, setHeight] = useState(window.innerHeight);
@@ -27,7 +30,7 @@ export default function Dashboard() {
   return (
     <div className="grid min-h-screen">
       <main className="grid grid-rows-[20px_1fr_20px] justify-center pt-5">
-      <a href="/" style={{"zIndex":"99999"}}>
+      <a href="/draft" style={{"zIndex":"99999"}}>
           <img
             className=""
             src="/tt-draft-logo.png"
@@ -40,27 +43,45 @@ export default function Dashboard() {
       <div className="grid grid-cols-[20px_1fr_80px_1fr_20px] justify-center pt-50">
         <div></div>
         <div className="grid justify-center items-center place-content-center">
-          <a href="/draft">
-            <img
-                className="hover:scale-125 transition-all"
-                src="/draft-icon-1.png"
-                alt="TT Draft Logo"
-                width={275}
-                height={275}
-            />
-          </a>
+          <div style={{position: "relative", display: "inline-block"}}
+            onMouseEnter={() => setShowDraftTooltip(true)}
+            onMouseLeave={() => setShowDraftTooltip(false)}>
+            <a href="/draft">
+              <img
+                  className="hover:scale-125 transition-all"
+                  src="/draft-icon-1.png"
+                  alt="TT Draft Logo"
+                  width={275}
+                  height={275}
+              />
+            </a>
+            {showDraftTooltip && (
+              <div style={{position: "absolute", bottom: "100%", left: "50%", transform: "translateX(-50%)", marginBottom: "40px", background: "#333", color: "whitesmoke", padding: "8px 12px", borderRadius: "4px", whiteSpace: "nowrap", zIndex: 10000, fontSize: "0.85em"}}>
+                Go Draft!
+              </div>
+            )}
+          </div>
         </div>
         <div></div>
         <div className="grid justify-center items-center place-content-center">
-          <a href="/settings">
-            <img
-              className="hover:scale-125 transition-all"
-              src="/settings-icon.png"
-              alt="Configure Image"
-              width={275}
-              height={275}
-            />
-          </a>
+          <div style={{position: "relative", display: "inline-block"}}
+            onMouseEnter={() => setShowSettingsTooltip(true)}
+            onMouseLeave={() => setShowSettingsTooltip(false)}>
+            <a href="/settings">
+              <img
+                className="hover:scale-125 transition-all"
+                src="/settings-icon.png"
+                alt="Configure Image"
+                width={275}
+                height={275}
+              />
+            </a>
+            {showSettingsTooltip && (
+              <div style={{position: "absolute", bottom: "100%", left: "50%", transform: "translateX(-50%)", marginBottom: "40px", background: "#333", color: "whitesmoke", padding: "8px 12px", borderRadius: "4px", whiteSpace: "nowrap", zIndex: 10000, fontSize: "0.85em"}}>
+                Change Settings!
+              </div>
+            )}
+          </div>
         </div>
       <div></div>
       </div>
