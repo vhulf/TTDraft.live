@@ -1,11 +1,8 @@
 'use client'
 
 import RouletteCard from "components/rouletteCard";
-import { split } from "postcss/lib/list";
-import { useEffect } from "react";
-import  uuid  from "react-uuid";
+import { useLayoutEffect, useRef, useId, useState, useEffect, cloneElement } from "react";
 import { getSettingsItem } from '../app/settings';
-import { useNavigate } from "react-router";
 
 const categories = {
   "ancient-lake": ["car", "hover", "plane"],
@@ -53,55 +50,56 @@ const categoriesSerialized = [
   "spaceport-alpha:car", "spaceport-alpha:hover", "spaceport-alpha:plane"
 ]
 
-function Seperator() {
-  return (
-    <div>
-      <br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br>
-    </div>
-  )
-}
-
 function getRandomInt(min: number, max: number) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function fillSpinnerArray(id: string) {
+function fillSpinnerArray(id: string, allowedVehicles: string[]) {
+
+  const mapKeys = Object.keys(categories)
+  const validMaps = mapKeys.filter(m => categories[m].some(v => allowedVehicles.indexOf(v) !== -1))
+
   let toReturn = []
 
   for (let i = 0; i < 45; i++) {
-    let ran1 = getRandomInt(0, 19)
-    let ran2 = getRandomInt(0, categories[Object.keys(categories)[ran1]].length-1)
+    let ran1 = getRandomInt(0, validMaps.length - 1)
+    let selectedMap = validMaps[ran1]
+    let availableVehicles = categories[selectedMap].filter(v => allowedVehicles.indexOf(v) !== -1)
+    let ran2 = getRandomInt(0, availableVehicles.length - 1)
 
-
-    toReturn.push(<RouletteCard map={Object.keys(categories)[ran1]} vehichle={categories[Object.keys(categories)[ran1]][ran2]} dataKey={"card-"+i+"-"+id}></RouletteCard>)
+    toReturn.push(<RouletteCard map={selectedMap} vehichle={availableVehicles[ran2]} dataKey={"card-"+i+"-"+id}></RouletteCard>)
   }
 
   return toReturn
 }
 
-let hasScrolled = false;
-
-const scroll = (cardNum: number, id: string, hasScrolled?: boolean) => {
-  if (!hasScrolled) {
-    hasScrolled = true;
-    let section = document.querySelector( '#card-'+cardNum+'-'+id );
-    if (section !== null) {
-      section.scrollIntoView({'behavior': 'smooth', 'block': 'center'})
-      // let scrollTo = section.getBoundingClientRect().top - 250
-      // section.scrollTo( { top: 500, behavior: 'smooth'} );
-      section.setAttribute("class", "animate-pulse")
-    }
+const scrollToCard = (container: HTMLElement, cardNum: number, id: string) => {
+  const sectionId = 'card-' + cardNum + '-' + id;
+  const section = document.getElementById(sectionId);
+  if (section) {
+    container.scrollTo({ top: 0 });
+    const cardEl = section as HTMLElement;
+    const containerRect = container.getBoundingClientRect();
+    const cardRect = cardEl.getBoundingClientRect();
+    const targetScroll = container.scrollTop + cardRect.top - containerRect.top - (containerRect.height / 2) + (cardRect.height / 2);
+    container.scrollTo({ top: targetScroll, behavior: 'smooth' });
   }
 };
 
-function fillSpinnerArraySer(id: string) {
+function fillSpinnerArraySer(id: string, allowedVehicles: string[]) {
+
+  const filtered = categoriesSerialized.filter(entry => {
+    const veh = entry.split(":")[1]
+    return allowedVehicles.indexOf(veh) !== -1
+  })
+
   let toReturn = []
 
   for (let i = 0; i < 45; i++) {
-    let ran = getRandomInt(0, categoriesSerialized.length - 1)
-    let mappy = deserializeMap(categoriesSerialized[ran])
+    let ran = getRandomInt(0, filtered.length - 1)
+    let mappy = deserializeMap(filtered[ran])
 
     toReturn.push(<RouletteCard map={mappy[0]} vehichle={mappy[1]} key={"card-"+i} dataKey={"card-"+i+"-"+id}></RouletteCard>)
   }
@@ -115,32 +113,66 @@ function deserializeMap(serialized:string) {
   return toRet
 }
 
-const RouletteSpinner = () => {
-  let compId = uuid();
-  let spinnerArray = [];
-  const navigate = useNavigate();
+interface SpinnerProps {
+  bannedKeys?: Set<string>
+  bansComplete?: boolean
+  onBan?: (key: string) => void
+}
 
-  if (getSettingsItem("rollMapFirst") == "true") {
-    spinnerArray = fillSpinnerArray(compId)
-  } else {
-    spinnerArray = fillSpinnerArraySer(compId)
-  }
+const RouletteSpinner = ({ bannedKeys, bansComplete, onBan }: SpinnerProps) => {
+  const bk = bannedKeys ?? new Set<string>();
+  const bc = bansComplete ?? false;
+  const ob = onBan ?? (() => {});
+  const compId = useId().replace(/:/g, "");
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [cards, setCards] = useState<React.ReactElement[]>([]);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   useEffect(() => {
-    if (typeof document !== "undefined") {
-      
-      let selected = getRandomInt(5, 40);
-      scroll(selected, compId, hasScrolled);
-
-      document.getElementById(compId)?.setAttribute("style", "height: 775px; overflow-y: hidden; overflow-anchor: none; margin-top: 160px;")
+    var allowed: string[] = ["car","hover","plane"]
+    try {
+      var raw = JSON.parse(localStorage.getItem("settings") || "null")
+      if (raw && Array.isArray(raw.vehicles)) {
+        allowed = raw.vehicles
+      } else if (raw && typeof raw.vehicles === "string" && raw.vehicles !== "NOWIN") {
+        allowed = raw.vehicles.split(",").filter(Boolean)
+      }
+    } catch {}
+    if (getSettingsItem("rollMapFirst") == "true") {
+      setCards(fillSpinnerArray(compId, allowed))
+    } else {
+      setCards(fillSpinnerArraySer(compId, allowed))
     }
-  }, []);
+  }, [])
+
+  useLayoutEffect(() => {
+    if (cards.length === 0) return
+    const container = containerRef.current;
+    if (container) {
+      const selected = getRandomInt(5, 40);
+      setSelectedIndex(selected);
+      scrollToCard(container, selected, compId);
+
+      setTimeout(() => {
+        if (containerRef.current) {
+          containerRef.current.style.overflowY = "hidden";
+        }
+      }, 1200);
+    }
+  }, [cards]);
   
   return (
-    <div style={{height: "775px", overflowY: "hidden", overflowAnchor: "none", marginTop: "160px"}} id={compId} className="scrolltainer">
-      <div style={{paddingLeft: "25px", top: "200px"}}>
-          {spinnerArray.map((cardItem) => (
-              <li key={cardItem.key} style={{height: "245px", listStyle: "none"}}>{cardItem}</li>
+    <div ref={containerRef} style={{height: "calc(100vh - 74px)", overflowY: "auto", overflowX: "hidden", overflowAnchor: "none"}} id={compId} className="scrolltainer">
+      <div style={{padding: "0 6px"}}>
+          {cards.map((cardItem, i) => (
+              <li key={cardItem.key} style={{height: "180px", listStyle: "none"}}>
+                {cloneElement(cardItem, {
+                  isSelected: selectedIndex === i,
+                  isBanned: bk.has((cardItem.props as any).dataKey),
+                  bansComplete: bc,
+                  onBan: ob,
+                })}
+              </li>
           ))}
         </div>
     </div>

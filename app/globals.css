@@ -38,11 +38,3 @@ html {
   border: 5px green;
   padding: 5px;
 }
-
-.selectorLine {
-  z-index: 9999;
-  width: 100%;
-  position: fixed;
-  top: 70%;
-  color: whitesmoke;
-}
