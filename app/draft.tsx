@@ -1,8 +1,15 @@
 'use client'
 
-import {useState, useRef} from 'react';
+import {useState, useRef, useEffect} from 'react';
 import RouletteSpinner from 'components/rouletteSpinner';
+import TimerModal from 'components/timerModal';
 import { getSettingsItem, getVehicles } from './settings';
+
+interface PairResult {
+  map: string
+  vehicle: string
+  dataKey: string
+}
 
 export default function Draft() {
   const [showTooltip, setShowTooltip] = useState(false);
@@ -11,6 +18,14 @@ export default function Draft() {
   const [bannedKeys, setBannedKeys] = useState<Set<string>>(new Set());
   const bansComplete = bannedKeys.size >= 2;
   const takenPairs = useRef(new Set<string>());
+  const [selectedPairs, setSelectedPairs] = useState<PairResult[]>([]);
+  const [timerModalOpen, setTimerModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (bansComplete && selectedPairs.length === 5) {
+      setTimerModalOpen(true);
+    }
+  }, [bansComplete, selectedPairs]);
 
   function handleBan(key: string) {
     setBannedKeys(prev => {
@@ -20,11 +35,22 @@ export default function Draft() {
     });
   }
 
+  function handleResult(pair: PairResult) {
+    setSelectedPairs(prev => {
+      if (prev.some(p => p.dataKey === pair.dataKey)) return prev;
+      return [...prev, pair];
+    });
+  }
+
   function reloadMe() {
     setSpinKey((k) => k + 1);
     setBannedKeys(new Set());
     takenPairs.current = new Set();
+    setSelectedPairs([]);
+    setTimerModalOpen(false);
   }
+
+  const nonBanned = selectedPairs.filter(p => !bannedKeys.has(p.dataKey));
 
   var curRoll = "";
 
@@ -80,11 +106,11 @@ export default function Draft() {
       <div className="@container min-w-screen" style={{paddingTop: "74px"}}>
         <div style={{position: "relative"}}>
           <div className="grid grid-cols-5">
-            <RouletteSpinner key={"spin"+spinKey+"a"} bannedKeys={bannedKeys} bansComplete={bansComplete} onBan={handleBan} takenPairs={takenPairs}></RouletteSpinner>
-            <RouletteSpinner key={"spin"+spinKey+"b"} bannedKeys={bannedKeys} bansComplete={bansComplete} onBan={handleBan} takenPairs={takenPairs}></RouletteSpinner>
-            <RouletteSpinner key={"spin"+spinKey+"c"} bannedKeys={bannedKeys} bansComplete={bansComplete} onBan={handleBan} takenPairs={takenPairs}></RouletteSpinner>
-            <RouletteSpinner key={"spin"+spinKey+"d"} bannedKeys={bannedKeys} bansComplete={bansComplete} onBan={handleBan} takenPairs={takenPairs}></RouletteSpinner>
-            <RouletteSpinner key={"spin"+spinKey+"e"} bannedKeys={bannedKeys} bansComplete={bansComplete} onBan={handleBan} takenPairs={takenPairs}></RouletteSpinner>
+            <RouletteSpinner key={"spin"+spinKey+"a"} bannedKeys={bannedKeys} bansComplete={bansComplete} onBan={handleBan} takenPairs={takenPairs} onResult={handleResult}></RouletteSpinner>
+            <RouletteSpinner key={"spin"+spinKey+"b"} bannedKeys={bannedKeys} bansComplete={bansComplete} onBan={handleBan} takenPairs={takenPairs} onResult={handleResult}></RouletteSpinner>
+            <RouletteSpinner key={"spin"+spinKey+"c"} bannedKeys={bannedKeys} bansComplete={bansComplete} onBan={handleBan} takenPairs={takenPairs} onResult={handleResult}></RouletteSpinner>
+            <RouletteSpinner key={"spin"+spinKey+"d"} bannedKeys={bannedKeys} bansComplete={bansComplete} onBan={handleBan} takenPairs={takenPairs} onResult={handleResult}></RouletteSpinner>
+            <RouletteSpinner key={"spin"+spinKey+"e"} bannedKeys={bannedKeys} bansComplete={bansComplete} onBan={handleBan} takenPairs={takenPairs} onResult={handleResult}></RouletteSpinner>
           </div>
           <div style={{
             position: "absolute",
@@ -104,6 +130,12 @@ export default function Draft() {
           }} />
         </div>
       </div>
+      <TimerModal
+        key={"timer"+spinKey}
+        selectedPairs={nonBanned}
+        open={timerModalOpen}
+        onClose={() => setTimerModalOpen(false)}
+      />
     </div>
   );
 }

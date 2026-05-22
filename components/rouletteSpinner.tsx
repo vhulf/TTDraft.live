@@ -118,12 +118,14 @@ interface SpinnerProps {
   bansComplete?: boolean
   onBan?: (key: string) => void
   takenPairs?: React.MutableRefObject<Set<string>>
+  onResult?: (pair: { map: string; vehicle: string; dataKey: string }) => void
 }
 
-const RouletteSpinner = ({ bannedKeys, bansComplete, onBan, takenPairs }: SpinnerProps) => {
+const RouletteSpinner = ({ bannedKeys, bansComplete, onBan, takenPairs, onResult }: SpinnerProps) => {
   const bk = bannedKeys ?? new Set<string>();
   const bc = bansComplete ?? false;
   const ob = onBan ?? (() => {});
+  const or = onResult ?? (() => {});
   const compId = useId().replace(/:/g, "");
   const containerRef = useRef<HTMLDivElement>(null);
   const [cards, setCards] = useState<React.ReactElement[]>([]);
@@ -169,6 +171,10 @@ const RouletteSpinner = ({ bannedKeys, bansComplete, onBan, takenPairs }: Spinne
       }
       setSelectedIndex(selected);
       scrollToCard(container, selected, compId);
+      const selCard = cards[selected] as any;
+      if (selCard?.props) {
+        or({ map: selCard.props.map, vehicle: selCard.props.vehichle, dataKey: selCard.props.dataKey });
+      }
 
       setTimeout(() => {
         if (containerRef.current) {
