@@ -43,11 +43,31 @@ export default function TimerModal({ selectedPairs, open, onClose, onReopen }: T
   const [isClosing, setIsClosing] = useState(false)
   const [openedByChevron, setOpenedByChevron] = useState(false)
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const wakeLockRef = useRef<WakeLockSentinel | null>(null)
 
   const clearTimer = useCallback(() => {
     if (intervalRef.current !== null) {
       clearInterval(intervalRef.current)
       intervalRef.current = null
+    }
+  }, [])
+
+  const requestWakeLock = useCallback(async () => {
+    try {
+      if (wakeLockRef.current) return
+      wakeLockRef.current = await navigator.wakeLock.request('screen')
+      wakeLockRef.current.addEventListener('release', () => {
+        wakeLockRef.current = null
+      })
+    } catch {
+      wakeLockRef.current = null
+    }
+  }, [])
+
+  const releaseWakeLock = useCallback(() => {
+    if (wakeLockRef.current) {
+      wakeLockRef.current.release()
+      wakeLockRef.current = null
     }
   }, [])
 
@@ -74,6 +94,15 @@ export default function TimerModal({ selectedPairs, open, onClose, onReopen }: T
       setWasEverOpened(true)
     }
   }, [open, wasEverOpened])
+
+  useEffect(() => {
+    if (isRunning && open) {
+      requestWakeLock()
+    } else if (wakeLockRef.current) {
+      releaseWakeLock()
+    }
+    return () => releaseWakeLock()
+  }, [isRunning, open, requestWakeLock, releaseWakeLock])
 
   const handleCloseClick = () => {
     if (isClosing) return
