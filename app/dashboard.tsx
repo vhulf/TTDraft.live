@@ -28,7 +28,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col" style={{padding: "clamp(10px, 2vw, 20px)", boxSizing: "border-box"}}>
+    <div className="min-h-[100dvh] flex flex-col overflow-y-auto" style={{padding: "clamp(10px, 2vw, 20px)", boxSizing: "border-box"}}>
       <a href="/draft" style={{display: "flex", justifyContent: "center", flexShrink: 0}}>
         <img
           src="/tt-draft-logo.png"
