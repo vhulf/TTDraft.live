@@ -28,64 +28,60 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="grid min-h-screen">
-      <main className="grid grid-rows-[20px_1fr_20px] justify-center pt-5">
-      <a href="/draft" style={{"zIndex":"99999"}}>
-          <img
-            className=""
-            src="/tt-draft-logo.png"
-            alt="Main Site Logo"
-            width={850}
-            height={100}
-          />
-        </a>
-      </main>
-      <div className="grid grid-cols-[20px_1fr_80px_1fr_20px] justify-center pt-50">
-        <div></div>
-        <div className="grid justify-center items-center place-content-center">
-          <div style={{position: "relative", display: "inline-block"}}
-            onMouseEnter={() => setShowDraftTooltip(true)}
-            onMouseLeave={() => setShowDraftTooltip(false)}>
-            <a href="/draft">
-              <img
+    <div className="min-h-screen flex flex-col" style={{padding: "clamp(10px, 2vw, 20px)", boxSizing: "border-box"}}>
+      <a href="/draft" style={{display: "flex", justifyContent: "center", flexShrink: 0}}>
+        <img
+          src="/tt-draft-logo.png"
+          alt="Main Site Logo"
+          style={{maxWidth: "clamp(300px, 70vw, 850px)", width: "100%", height: "auto"}}
+        />
+      </a>
+      <div style={{flex: 1, display: "flex", alignItems: "center", justifyContent: "center"}}>
+        <div className="grid grid-cols-[20px_1fr_80px_1fr_20px] justify-center w-full">
+          <div></div>
+          <div className="grid justify-center items-center place-content-center">
+            <div style={{position: "relative", display: "inline-block"}}
+              onMouseEnter={() => setShowDraftTooltip(true)}
+              onMouseLeave={() => setShowDraftTooltip(false)}>
+              <a href="/draft">
+                <img
                   className="hover:scale-125 transition-all"
                   src="/draft-icon-1.png"
                   alt="TT Draft Logo"
-                  width={275}
-                  height={275}
-              />
-            </a>
-            {showDraftTooltip && (
-              <div style={{position: "absolute", bottom: "100%", left: "50%", transform: "translateX(-50%)", marginBottom: "40px", background: "#333", color: "whitesmoke", padding: "8px 12px", borderRadius: "4px", whiteSpace: "nowrap", zIndex: 10000, fontSize: "0.85em"}}>
-                Go Draft!
-              </div>
-            )}
+                  style={{width: "clamp(175px, 25vw, 275px)", height: "auto", aspectRatio: "1"}}
+                />
+              </a>
+              {showDraftTooltip && (
+                <div style={{position: "absolute", bottom: "100%", left: "50%", transform: "translateX(-50%)", marginBottom: "40px", background: "#333", color: "whitesmoke", padding: "8px 12px", borderRadius: "4px", whiteSpace: "nowrap", zIndex: 10000, fontSize: "0.85em"}}>
+                  Go Draft!
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-        <div></div>
-        <div className="grid justify-center items-center place-content-center">
-          <div style={{position: "relative", display: "inline-block"}}
-            onMouseEnter={() => setShowSettingsTooltip(true)}
-            onMouseLeave={() => setShowSettingsTooltip(false)}>
-            <a href="/settings">
-              <img
-                className="hover:scale-125 transition-all"
-                src="/settings-icon.png"
-                alt="Configure Image"
-                width={275}
-                height={275}
-              />
-            </a>
-            {showSettingsTooltip && (
-              <div style={{position: "absolute", bottom: "100%", left: "50%", transform: "translateX(-50%)", marginBottom: "40px", background: "#333", color: "whitesmoke", padding: "8px 12px", borderRadius: "4px", whiteSpace: "nowrap", zIndex: 10000, fontSize: "0.85em"}}>
-                Change Settings!
-              </div>
-            )}
+          <div></div>
+          <div className="grid justify-center items-center place-content-center">
+            <div style={{position: "relative", display: "inline-block"}}
+              onMouseEnter={() => setShowSettingsTooltip(true)}
+              onMouseLeave={() => setShowSettingsTooltip(false)}>
+              <a href="/settings">
+                <img
+                  className="hover:scale-125 transition-all"
+                  src="/settings-icon.png"
+                  alt="Configure Image"
+                  style={{width: "clamp(175px, 25vw, 275px)", height: "auto", aspectRatio: "1"}}
+                />
+              </a>
+              {showSettingsTooltip && (
+                <div style={{position: "absolute", bottom: "100%", left: "50%", transform: "translateX(-50%)", marginBottom: "40px", background: "#333", color: "whitesmoke", padding: "8px 12px", borderRadius: "4px", whiteSpace: "nowrap", zIndex: 10000, fontSize: "0.85em"}}>
+                  Change Settings!
+                </div>
+              )}
+            </div>
           </div>
+          <div></div>
         </div>
-      <div></div>
       </div>
-      <footer className="flex gap-8 flex-wrap items-center justify-center">
+      <footer className="flex gap-8 flex-wrap items-center justify-center" style={{flexShrink: 0}}>
         <a
           className="flex items-center gap-2 font-bold hover:underline hover:underline-offset-4"
           href="/contact"

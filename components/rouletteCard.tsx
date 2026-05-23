@@ -31,7 +31,7 @@ interface Props {
       className={blinkClass}
       style={{
         position: "relative",
-        height: "180px",
+        height: "100%",
         cursor: isSelected && !isBanned && !bansComplete ? "pointer" : "default",
       }}
       onClick={handleClick}
@@ -39,7 +39,7 @@ interface Props {
       {showGlow && (
         <div style={{
           position: "absolute",
-          inset: 10,
+          inset: 0,
           zIndex: 5,
           borderRadius: "6px",
           boxShadow: "0 0 3px 5px rgba(0, 255, 100, 0.6)",
@@ -49,25 +49,21 @@ interface Props {
       )}
       <div className="relative" style={{height: "100%"}}>
         <img
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
             src={"/" + props.map + ".png"}
             alt="draft-icon_map"
-            width={220}
-            height={220}
+            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
         />
         <img
             className="absolute"
             src={"/" + props.vehichle + "-icon-2.png"}
             alt="draft-icon_veh"
-            width={75}
-            height={75}
-            style={{left: "15px", top: "5px"}}
+            style={{left: "15px", top: "5px", width: "35%", maxWidth: "75px", height: "auto"}}
         />
       </div>
       {isBanned && (
         <div style={{
           position: "absolute",
-          inset: 6,
+          inset: 0,
           zIndex: 20,
           pointerEvents: "none",
           background: "rgba(0,0,0,0.7)",

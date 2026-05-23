@@ -186,9 +186,9 @@ const RouletteSpinner = ({ bannedKeys, bansComplete, onBan, takenPairs, onResult
   
   return (
     <div ref={containerRef} style={{height: "calc(100vh - 74px)", overflowY: "auto", overflowX: "hidden", overflowAnchor: "none"}} id={compId} className="scrolltainer">
-      <div style={{padding: "0 6px"}}>
+      <div style={{padding: "0 6px", display: "flex", flexDirection: "column", gap: "24px"}}>
           {cards.map((cardItem, i) => (
-              <li key={cardItem.key} style={{height: "180px", listStyle: "none"}}>
+              <li key={cardItem.key} style={{width: "90%", margin: "0 auto", aspectRatio: "1", listStyle: "none"}}>
                 {cloneElement(cardItem, {
                   isSelected: selectedIndex === i,
                   isBanned: bk.has((cardItem.props as any).dataKey),
