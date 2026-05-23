@@ -81,7 +81,7 @@ export default function Dashboard() {
           <div></div>
         </div>
       </div>
-      <footer className="flex gap-8 flex-wrap items-center justify-center" style={{flexShrink: 0}}>
+      <footer className="flex gap-8 flex-wrap items-center justify-center max-sm:pb-[24px]" style={{flexShrink: 0}}>
         <a
           className="flex items-center gap-2 font-bold hover:underline hover:underline-offset-4"
           href="/contact"
