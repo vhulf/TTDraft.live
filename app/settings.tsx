@@ -51,8 +51,8 @@ export default function Settings() {
   }
 
   const modeDescriptions: Record<string, { label: string, desc: string }> = {
-    "false": { label: "Standard", desc: "Rolls five total options, leaving three after bans." },
-    "true": { label: "Single", desc: "Rolls three total options, leaving one high-octane map after bans." }
+    "false": { label: "Standard", desc: "Rolls five total options, leaving three maps after bans." },
+    "true": { label: "Single", desc: "Rolls three total options, leaving one map after bans." }
   }
 
   const vehicleOptions = [
