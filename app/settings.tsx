@@ -50,6 +50,11 @@ export default function Settings() {
     "false": { label: "Category Roll", desc: "All map and vehicle combos are rolled from a single pool. Car categories carry more weight overall, and maps with fewer categories are less likely to appear." }
   }
 
+  const modeDescriptions: Record<string, { label: string, desc: string }> = {
+    "false": { label: "Standard", desc: "Rolls five total options, leaving three after bans." },
+    "true": { label: "Single", desc: "Rolls three total options, leaving one high-octane map after bans." }
+  }
+
   const vehicleOptions = [
     { value: "car", label: "Car" },
     { value: "hover", label: "Hovercraft" },
@@ -158,7 +163,7 @@ export default function Settings() {
 
             <div className="border border-gray-600 rounded-lg p-5">
               <h2 className="text-lg font-semibold mb-1">Draft Mode</h2>
-              <p className="text-sm text-gray-400 mb-4">Controls how many maps you are drafting for. Standard rolls five, leaving three in play after the bans. Single rolls three, leaving only ONE high octane category!</p>
+              <p className="text-sm text-gray-400 mb-4">Controls how many items you are drafting for.</p>
 
               <div className="flex gap-3 mb-4">
                 <button
@@ -174,6 +179,8 @@ export default function Settings() {
                   Single
                 </button>
               </div>
+
+              <p className="text-sm text-gray-400">{modeDescriptions[singleMapDraft].desc}</p>
             </div>
           </div>
         </div>
